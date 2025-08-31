@@ -2,7 +2,7 @@ import { FaRegUser } from 'react-icons/fa';
 import { FiCpu } from 'react-icons/fi';
 import { RiMailSendLine } from 'react-icons/ri';
 import { GoProject } from 'react-icons/go';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 function Header() {
 	const [isVisible, setIsVisible] = useState(false);
@@ -12,40 +12,62 @@ function Header() {
 	const [showProjetos, setShowProjetos] = useState(false);
 	const [showContato, setShowContato] = useState(false);
 
+	const timersRef = useRef<number[]>([]);
+
+	const clearAllTimers = useCallback(() => {
+		timersRef.current.forEach((timer) => {
+			clearTimeout(timer);
+		});
+		timersRef.current = [];
+	}, []);
+
+	const onTop = useCallback(() => {
+		const top = window.scrollY === 0;
+
+		clearAllTimers();
+
+		if (top) {
+			const timers = [
+				setTimeout(() => setIsVisible(true), 800),
+				setTimeout(() => setShowLogo(true), 1200),
+				setTimeout(() => setShowSobre(true), 1400),
+				setTimeout(() => setShowTecnologias(true), 1600),
+				setTimeout(() => setShowProjetos(true), 1800),
+				setTimeout(() => setShowContato(true), 2000),
+			];
+
+			timersRef.current = timers;
+		} else {
+			const timers = [
+				setTimeout(() => setShowLogo(false), 500),
+				setTimeout(() => setShowSobre(false), 700),
+				setTimeout(() => setShowTecnologias(false), 900),
+				setTimeout(() => setShowProjetos(false), 1100),
+				setTimeout(() => setShowContato(false), 1300),
+				setTimeout(() => setIsVisible(false), 1500),
+			];
+
+			timersRef.current = timers;
+		}
+	}, [clearAllTimers]);
+
 	useEffect(() => {
-		const headerTimer = setTimeout(() => {
-			setIsVisible(true);
-		}, 1500);
+		onTop();
 
-		const logoTimer = setTimeout(() => {
-			setShowLogo(true);
-		}, 2500);
+		let timeoutId: number;
+		const handleScroll = () => {
+			clearTimeout(timeoutId);
+			timeoutId = setTimeout(onTop, 100);
+		};
 
-		const sobreTimer = setTimeout(() => {
-			setShowSobre(true);
-		}, 2800);
-
-		const tecnologiasTimer = setTimeout(() => {
-			setShowTecnologias(true);
-		}, 3100);
-
-		const projetosTimer = setTimeout(() => {
-			setShowProjetos(true);
-		}, 3400);
-
-		const contatoTimer = setTimeout(() => {
-			setShowContato(true);
-		}, 3700);
+		window.addEventListener('scroll', handleScroll);
 
 		return () => {
-			clearTimeout(headerTimer);
-			clearTimeout(logoTimer);
-			clearTimeout(sobreTimer);
-			clearTimeout(tecnologiasTimer);
-			clearTimeout(projetosTimer);
-			clearTimeout(contatoTimer);
+			window.removeEventListener('scroll', handleScroll);
+			clearTimeout(timeoutId);
+			clearAllTimers();
 		};
-	}, []);
+	}, [onTop, clearAllTimers]);
 
 	return (
 		<header
@@ -66,7 +88,7 @@ function Header() {
 					showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
 				}`}
 			>
-				<a href="$">
+				<a href="#home">
 					<img
 						src="/images/Logo1.png"
 						alt="Logo TheusDev"
@@ -76,7 +98,7 @@ function Header() {
 			</div>
 			<div className="items-center hidden md:flex gap-2 min-[860px]:gap-4">
 				<a
-					href="$"
+					href="#sobre"
 					className={`transition-all duration-500 ease-out ${
 						showSobre ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
 					}`}
@@ -89,7 +111,7 @@ function Header() {
 					</div>
 				</a>
 				<a
-					href="$"
+					href="#tecnologias"
 					className={`transition-all duration-500 ease-out ${
 						showTecnologias
 							? 'opacity-100 translate-y-0'
@@ -104,7 +126,7 @@ function Header() {
 					</div>
 				</a>
 				<a
-					href="$"
+					href="#projetos"
 					className={`transition-all duration-500 ease-out ${
 						showProjetos
 							? 'opacity-100 translate-y-0'
@@ -119,7 +141,7 @@ function Header() {
 					</div>
 				</a>
 				<a
-					href="$"
+					href="#contato"
 					className={`transition-all duration-500 ease-out ${
 						showContato
 							? 'opacity-100 translate-y-0'

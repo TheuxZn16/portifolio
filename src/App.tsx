@@ -1,11 +1,13 @@
-import Header from "./components/Header"
+import Header from './components/Header';
 
 function App() {
-  return (
-    <div className="bg-dark-bg h-screen w-screen">
-      <Header />
-    </div>
-  )
+	return (
+		<div className="bg-dark-bg h-screen w-screen">
+			<Header />
+			<div className="h-screen">1</div>
+			<div className="h-screen">1</div>
+		</div>
+	);
 }
 
-export default App
+export default App;
