@@ -11,6 +11,8 @@ function Header() {
 	const [showTecnologias, setShowTecnologias] = useState(false);
 	const [showProjetos, setShowProjetos] = useState(false);
 	const [showContato, setShowContato] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
+	const [isClicked, setIsClicked] = useState(false);
 
 	const timersRef = useRef<number[]>([]);
 
@@ -21,43 +23,58 @@ function Header() {
 		timersRef.current = [];
 	}, []);
 
-	const onTop = useCallback(() => {
-		const top = window.scrollY === 0;
+	const onTop = useCallback(
+		(clicked: boolean) => {
+			const top = window.scrollY === 0;
 
-		clearAllTimers();
+			clearAllTimers();
 
-		if (top) {
-			const timers = [
-				setTimeout(() => setIsVisible(true), 800),
-				setTimeout(() => setShowLogo(true), 1200),
-				setTimeout(() => setShowSobre(true), 1400),
-				setTimeout(() => setShowTecnologias(true), 1600),
-				setTimeout(() => setShowProjetos(true), 1800),
-				setTimeout(() => setShowContato(true), 2000),
-			];
-
-			timersRef.current = timers;
-		} else {
-			const timers = [
-				setTimeout(() => setShowLogo(false), 500),
-				setTimeout(() => setShowSobre(false), 700),
-				setTimeout(() => setShowTecnologias(false), 900),
-				setTimeout(() => setShowProjetos(false), 1100),
-				setTimeout(() => setShowContato(false), 1300),
-				setTimeout(() => setIsVisible(false), 1500),
-			];
-
-			timersRef.current = timers;
-		}
-	}, [clearAllTimers]);
+			if (top) {
+				setIsClicked(false);
+				const timers = [
+					setTimeout(() => setIsVisible(true), 800),
+					setTimeout(() => setShowLogo(true), 1200),
+					setTimeout(() => setShowSobre(true), 1400),
+					setTimeout(() => setShowTecnologias(true), 1600),
+					setTimeout(() => setShowProjetos(true), 1800),
+					setTimeout(() => setShowContato(true), 2000),
+				];
+				timersRef.current = timers;
+			} else {
+				const timers = [
+					setTimeout(() => setShowLogo(false), 250),
+					setTimeout(() => setShowSobre(false), 350),
+					setTimeout(() => setShowTecnologias(false), 450),
+					setTimeout(() => setShowProjetos(false), 550),
+					setTimeout(() => setShowContato(false), 650),
+					setTimeout(() => setIsVisible(false), 750),
+				];
+				timersRef.current = timers;
+			}
+		},
+		[clearAllTimers],
+	);
 
 	useEffect(() => {
-		onTop();
-
 		let timeoutId: number;
 		const handleScroll = () => {
 			clearTimeout(timeoutId);
-			timeoutId = setTimeout(onTop, 100);
+			timeoutId = window.setTimeout(() => {
+				if (window.scrollY === 0) {
+					setIsClicked(false);
+					onTop(true);
+				} else {
+					setIsClicked(false);
+					setIsHovered(false);
+					setIsVisible(false);
+					setShowLogo(false);
+					setShowSobre(false);
+					setShowTecnologias(false);
+					setShowProjetos(false);
+					setShowContato(false);
+					clearAllTimers();
+				}
+			}, 100);
 		};
 
 		window.addEventListener('scroll', handleScroll);
@@ -69,18 +86,66 @@ function Header() {
 		};
 	}, [onTop, clearAllTimers]);
 
+	useEffect(() => {
+		if (window.scrollY === 0) {
+			onTop(false);
+		}
+	}, [onTop]);
+
+	const isOpen = isVisible || isHovered || isClicked;
+
 	return (
-		<header
+		<button
+			type="button"
+			onMouseEnter={() => {
+				if (!isVisible && !isClicked) {
+					setIsHovered(true);
+					setShowLogo(true);
+					setShowSobre(true);
+					setShowTecnologias(true);
+					setShowProjetos(true);
+					setShowContato(true);
+				}
+			}}
+			onMouseLeave={() => {
+				if (!isVisible && !isClicked) {
+					setIsHovered(false);
+					setShowLogo(false);
+					setShowSobre(false);
+					setShowTecnologias(false);
+					setShowProjetos(false);
+					setShowContato(false);
+				}
+			}}
+			onClick={() => {
+				if (!isVisible) {
+					if (isClicked) {
+						setIsClicked(false);
+						setShowLogo(false);
+						setShowSobre(false);
+						setShowTecnologias(false);
+						setShowProjetos(false);
+						setShowContato(false);
+					} else {
+						setIsClicked(true);
+						setShowLogo(true);
+						setShowSobre(true);
+						setShowTecnologias(true);
+						setShowProjetos(true);
+						setShowContato(true);
+					}
+				}
+			}}
 			className={`z-10 bg-zinc-600 backdrop-blur-sm fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out ${
-				isVisible
-					? 'w-4/5 top-12 h-28 py-6 lg:px-28 md:px-16 px-8 rounded-sm -translate-x-1/2'
-					: 'w-8 h-8 top-[4.5rem] rounded-full -translate-x-1/2'
+				isOpen
+					? 'w-4/5 top-12 h-28 py-6 lg:px-28 md:px-16 px-8 rounded-sm -translate-x-1/2 cursor-default'
+					: 'w-8 h-8 top-[4.5rem] rounded-full -translate-x-1/2 cursor-pointer'
 			} flex items-center justify-between`}
 			style={{
-				clipPath: isVisible
+				clipPath: isOpen
 					? 'polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 57.5% 100%, 54% calc(100% - 10px), 46% calc(100% - 10px), 42.5% 100%, 0 100%, 0 30px)'
 					: 'circle(50% at 50% 50%)',
-				borderRadius: isVisible ? '0' : '50%',
+				borderRadius: isOpen ? '0' : '50%',
 			}}
 		>
 			<div
@@ -156,7 +221,7 @@ function Header() {
 					</div>
 				</a>
 			</div>
-		</header>
+		</button>
 	);
 }
 

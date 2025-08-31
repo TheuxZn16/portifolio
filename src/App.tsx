@@ -4,8 +4,6 @@ function App() {
 	return (
 		<div className="bg-dark-bg h-screen w-screen">
 			<Header />
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
 		</div>
 	);
 }
