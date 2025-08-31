@@ -23,37 +23,34 @@ function Header() {
 		timersRef.current = [];
 	}, []);
 
-	const onTop = useCallback(
-		(clicked: boolean) => {
-			const top = window.scrollY === 0;
+	const onTop = useCallback(() => {
+		const top = window.scrollY === 0;
 
-			clearAllTimers();
+		clearAllTimers();
 
-			if (top) {
-				setIsClicked(false);
-				const timers = [
-					setTimeout(() => setIsVisible(true), 800),
-					setTimeout(() => setShowLogo(true), 1200),
-					setTimeout(() => setShowSobre(true), 1400),
-					setTimeout(() => setShowTecnologias(true), 1600),
-					setTimeout(() => setShowProjetos(true), 1800),
-					setTimeout(() => setShowContato(true), 2000),
-				];
-				timersRef.current = timers;
-			} else {
-				const timers = [
-					setTimeout(() => setShowLogo(false), 250),
-					setTimeout(() => setShowSobre(false), 350),
-					setTimeout(() => setShowTecnologias(false), 450),
-					setTimeout(() => setShowProjetos(false), 550),
-					setTimeout(() => setShowContato(false), 650),
-					setTimeout(() => setIsVisible(false), 750),
-				];
-				timersRef.current = timers;
-			}
-		},
-		[clearAllTimers],
-	);
+		if (top) {
+			setIsClicked(false);
+			const timers = [
+				setTimeout(() => setIsVisible(true), 800),
+				setTimeout(() => setShowLogo(true), 1200),
+				setTimeout(() => setShowSobre(true), 1400),
+				setTimeout(() => setShowTecnologias(true), 1600),
+				setTimeout(() => setShowProjetos(true), 1800),
+				setTimeout(() => setShowContato(true), 2000),
+			];
+			timersRef.current = timers;
+		} else {
+			const timers = [
+				setTimeout(() => setShowLogo(false), 250),
+				setTimeout(() => setShowSobre(false), 350),
+				setTimeout(() => setShowTecnologias(false), 450),
+				setTimeout(() => setShowProjetos(false), 550),
+				setTimeout(() => setShowContato(false), 650),
+				setTimeout(() => setIsVisible(false), 750),
+			];
+			timersRef.current = timers;
+		}
+	}, [clearAllTimers]);
 
 	useEffect(() => {
 		let timeoutId: number;
@@ -62,7 +59,7 @@ function Header() {
 			timeoutId = window.setTimeout(() => {
 				if (window.scrollY === 0) {
 					setIsClicked(false);
-					onTop(true);
+					onTop();
 				} else {
 					setIsClicked(false);
 					setIsHovered(false);
@@ -88,7 +85,7 @@ function Header() {
 
 	useEffect(() => {
 		if (window.scrollY === 0) {
-			onTop(false);
+			onTop();
 		}
 	}, [onTop]);
 
@@ -136,7 +133,7 @@ function Header() {
 					}
 				}
 			}}
-			className={`z-10 bg-zinc-600 backdrop-blur-sm fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out ${
+			className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out ${
 				isOpen
 					? 'w-4/5 top-12 h-28 py-6 lg:px-28 md:px-16 px-8 rounded-sm -translate-x-1/2 cursor-default'
 					: 'w-8 h-8 top-[4.5rem] rounded-full -translate-x-1/2 cursor-pointer'
