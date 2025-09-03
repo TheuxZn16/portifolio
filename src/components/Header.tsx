@@ -103,8 +103,7 @@ function Header() {
 
 	return (
 		<>
-			<button
-				type="button"
+			<div
 				onMouseEnter={() => {
 					if (!isVisible && !isClicked) {
 						setIsHovered(true);
@@ -248,11 +247,10 @@ function Header() {
 						<HiMenu className="text-9xl" />
 					)}
 				</button>
-			</button>
+			</div>
 
 			{isMobileMenuOpen && (
-				<button
-					type="button"
+				<div
 					className="md:hidden fixed inset-0 z-20 bg-black bg-opacity-50 border-none"
 					onClick={toggleMobileMenu}
 					onKeyDown={(e) => {
@@ -325,7 +323,7 @@ function Header() {
 							</button>
 						</div>
 					</div>
-				</button>
+				</div>
 			)}
 		</>
 	);
