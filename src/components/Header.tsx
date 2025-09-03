@@ -243,9 +243,9 @@ function Header() {
 	`}
 				>
 					{isMobileMenuOpen ? (
-						<HiX className="text-2xl" />
+						<HiX className="text-9xl" />
 					) : (
-						<HiMenu className="text-2xl" />
+						<HiMenu className="text-9xl" />
 					)}
 				</button>
 			</button>
