@@ -11,14 +11,12 @@ import {
 } from '@react-three/drei';
 import * as THREE from 'three';
 
-// === MATERIAL CUSTOMIZADO ===
 const GradientMaterial = shaderMaterial(
 	{
 		time: 0,
 		modelMinX: 0,
 		modelWidth: 1,
 	},
-	// Vertex Shader
 	`
     varying vec3 vWorldPosition;
     void main() {
@@ -27,7 +25,6 @@ const GradientMaterial = shaderMaterial(
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `,
-	// Fragment Shader
 	`
     uniform float time;
     uniform float modelMinX;
@@ -65,8 +62,9 @@ extend({ GradientMaterial });
 function Model({ url }: { url: string }) {
 	const { scene } = useGLTF(url);
 	const matRef = useRef<THREE.ShaderMaterial>(null);
+	const groupRef = useRef<THREE.Group>(null);
+	const mouse = useRef({ x: 0, y: 0 });
 
-	// Calcular as dimensões do modelo no mundo
 	const modelDimensions = useMemo(() => {
 		const box = new THREE.Box3().setFromObject(scene);
 		const minX = box.min.x;
@@ -75,7 +73,6 @@ function Model({ url }: { url: string }) {
 		return { minX, maxX, width };
 	}, [scene]);
 
-	// Criar material uma única vez
 	if (!matRef.current) {
 		const material = new GradientMaterial({
 			side: THREE.DoubleSide,
@@ -83,7 +80,6 @@ function Model({ url }: { url: string }) {
 		matRef.current = material;
 	}
 
-	// Atualizar uniforms do material quando dimensões mudam
 	useMemo(() => {
 		if (matRef.current) {
 			matRef.current.uniforms.modelMinX.value = modelDimensions.minX;
@@ -91,7 +87,6 @@ function Model({ url }: { url: string }) {
 		}
 	}, [modelDimensions]);
 
-	// Aplica o material em todos os meshes
 	useMemo(() => {
 		scene.traverse((child: any) => {
 			if (child.isMesh) {
@@ -101,14 +96,42 @@ function Model({ url }: { url: string }) {
 		});
 	}, [scene]);
 
-	// Atualiza o tempo do material em cada frame
+	useMemo(() => {
+		const handleMouseMove = (event: MouseEvent) => {
+			mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		};
+		window.addEventListener('mousemove', handleMouseMove);
+		return () => window.removeEventListener('mousemove', handleMouseMove);
+	}, []);
+
 	useFrame((state) => {
 		if (matRef.current) {
 			matRef.current.uniforms.time.value = state.clock.getElapsedTime();
 		}
+
+		if (groupRef.current) {
+			const targetX = mouse.current.x * 0.5;
+			const targetY = -mouse.current.y * 0.5;
+
+			groupRef.current.rotation.y = THREE.MathUtils.lerp(
+				groupRef.current.rotation.y,
+				targetX,
+				0.05,
+			);
+			groupRef.current.rotation.x = THREE.MathUtils.lerp(
+				groupRef.current.rotation.x,
+				targetY,
+				0.05,
+			);
+		}
 	});
 
-	return <primitive object={scene} scale={1} />;
+	return (
+		<group ref={groupRef}>
+			<primitive object={scene} scale={1} />
+		</group>
+	);
 }
 
 export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
