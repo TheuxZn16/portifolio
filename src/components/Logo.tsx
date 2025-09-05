@@ -155,7 +155,13 @@ export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
 					<ContactShadows opacity={0.4} scale={10} blur={2.5} far={4} />
 				</Suspense>
 
-				<OrbitControls makeDefault enableDamping dampingFactor={0.1} />
+				<OrbitControls
+					makeDefault
+					enableDamping
+					enableZoom={false}
+					enableRotate={false}
+					dampingFactor={0.1}
+				/>
 			</Canvas>
 			<Loader />
 		</div>
