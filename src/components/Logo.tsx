@@ -1,4 +1,4 @@
-import { Suspense, useRef, useMemo } from 'react';
+import { Suspense, useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
 import {
 	OrbitControls,
@@ -32,16 +32,13 @@ const GradientMaterial = shaderMaterial(
     varying vec3 vWorldPosition;
 
     void main() {
-      // Calcula a posição horizontal normalizada baseada na posição mundial
       float worldX = vWorldPosition.x;
       float normalizedX = (worldX - modelMinX) / modelWidth;
-      
-      // Adiciona deslocamento contínuo (animação da esquerda para direita)
       float shift = fract(normalizedX - time * 0.5);
 
-      vec3 color1 = vec3(0.82, 0.21, 1.0); // #d036ff
-      vec3 color2 = vec3(0.25, 0.41, 1.0); // #3f69ff
-      vec3 color3 = vec3(0.0, 1.0, 1.0);   // #00ffff
+      vec3 color1 = vec3(0.82, 0.21, 1.0);
+      vec3 color2 = vec3(0.25, 0.41, 1.0);
+      vec3 color3 = vec3(0.0, 1.0, 1.0);
 
       vec3 finalColor;
       if (shift < 0.33) {
@@ -74,10 +71,7 @@ function Model({ url }: { url: string }) {
 	}, [scene]);
 
 	if (!matRef.current) {
-		const material = new GradientMaterial({
-			side: THREE.DoubleSide,
-		});
-		matRef.current = material;
+		matRef.current = new GradientMaterial({ side: THREE.DoubleSide });
 	}
 
 	useMemo(() => {
@@ -109,11 +103,9 @@ function Model({ url }: { url: string }) {
 		if (matRef.current) {
 			matRef.current.uniforms.time.value = state.clock.getElapsedTime();
 		}
-
 		if (groupRef.current) {
 			const targetX = mouse.current.x * 0.5;
 			const targetY = -mouse.current.y * 0.5;
-
 			groupRef.current.rotation.y = THREE.MathUtils.lerp(
 				groupRef.current.rotation.y,
 				targetX,
@@ -127,16 +119,41 @@ function Model({ url }: { url: string }) {
 		}
 	});
 
+	const [scrollY, setScrollY] = useState(0);
+	useEffect(() => {
+		const onScroll = () => setScrollY(window.scrollY);
+		window.addEventListener('scroll', onScroll);
+		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
+
+	const progress = Math.min(scrollY / window.innerHeight / 2, 1);
+	const scale = 1 - progress * 0.5;
+	const opacity = 1 - progress;
+
 	return (
-		<group ref={groupRef}>
-			<primitive object={scene} scale={1} />
+		<group ref={groupRef} scale={scale}>
+			<primitive object={scene} />
+			<meshStandardMaterial transparent opacity={opacity} />
 		</group>
 	);
 }
 
 export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
+	const [hide, setHide] = useState(false);
+
+	useEffect(() => {
+		const onScroll = () => {
+			const progress = window.scrollY / window.innerHeight;
+			setHide(progress > 2);
+		};
+		window.addEventListener('scroll', onScroll);
+		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
+
+	if (hide) return null;
+
 	return (
-		<div className="w-full h-screen">
+		<div className="w-full h-screen fixed top-0 left-0 pointer-events-none">
 			<Canvas shadows camera={{ position: [0, 0, 8], fov: 80 }}>
 				<hemisphereLight intensity={0.25} groundColor={'#222'} />
 				<directionalLight

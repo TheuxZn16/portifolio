@@ -6,8 +6,10 @@ function App() {
 		<div className="bg-[#0a0a0a]">
 			<Header />
 			<GLBViewer url="/images/Logo3D.glb" />
-			<div className="h-screen"></div>
-			<div className="h-screen"></div>
+
+			<div className="h-[300vh]"></div>
+
+			<div className="h-screen text-red-500 text-center">123</div>
 			<div className="h-screen"></div>
 		</div>
 	);
