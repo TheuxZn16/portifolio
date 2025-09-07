@@ -1,15 +1,16 @@
 import Header from './components/Header';
+import GLBViewer from './components/Logo';
 
 function App() {
 	return (
-		<div className="bg-[#0a0a0a] h-screen w-screen">
+		<div className="bg-[#0a0a0a]">
 			<Header />
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
-			<div className="h-screen">1</div>
+			<GLBViewer url="/images/Logo3D.glb" />
+
+			<div className="h-[300vh]"></div>
+
+			<div className="h-screen text-red-500 text-center">123</div>
+			<div className="h-screen"></div>
 		</div>
 	);
 }

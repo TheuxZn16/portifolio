@@ -17,7 +17,7 @@ function Header() {
 	const [isClicked, setIsClicked] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-	const timersRef = useRef<number[]>([]);
+	const timersRef = useRef<NodeJS.Timeout[]>([]);
 
 	const clearAllTimers = useCallback(() => {
 		timersRef.current.forEach((timer) => {
@@ -58,10 +58,10 @@ function Header() {
 	}, [clearAllTimers]);
 
 	useEffect(() => {
-		let timeoutId: number;
+		let timeoutId: NodeJS.Timeout;
 		const handleScroll = () => {
 			clearTimeout(timeoutId);
-			timeoutId = window.setTimeout(() => {
+			timeoutId = setTimeout(() => {
 				if (window.scrollY === 0) {
 					setIsClicked(false);
 					onTop();
@@ -103,8 +103,7 @@ function Header() {
 
 	return (
 		<>
-			<button
-				type="button"
+			<div
 				onMouseEnter={() => {
 					if (!isVisible && !isClicked) {
 						setIsHovered(true);
@@ -243,22 +242,15 @@ function Header() {
 	`}
 				>
 					{isMobileMenuOpen ? (
-						<HiX
-							className="text-2xl transition-all duration-500 ease-out transform 
-			${showHamburger ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}"
-						/>
+						<HiX className="text-9xl" />
 					) : (
-						<HiMenu
-							className="text-2xl transition-all duration-500 ease-out transform 
-			${showHamburger ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}"
-						/>
+						<HiMenu className="text-9xl" />
 					)}
 				</button>
-			</button>
+			</div>
 
 			{isMobileMenuOpen && (
-				<button
-					type="button"
+				<div
 					className="md:hidden fixed inset-0 z-20 bg-black bg-opacity-50 border-none"
 					onClick={toggleMobileMenu}
 					onKeyDown={(e) => {
@@ -331,7 +323,7 @@ function Header() {
 							</button>
 						</div>
 					</div>
-				</button>
+				</div>
 			)}
 		</>
 	);
