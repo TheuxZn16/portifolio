@@ -56,7 +56,7 @@ const GradientMaterial = shaderMaterial(
 
 extend({ GradientMaterial });
 
-function Model({ url }: { url: string }) {
+function Model({ url, scale }: { url: string; scale: number }) {
 	const { scene } = useGLTF(url);
 	const matRef = useRef<THREE.ShaderMaterial>(null);
 	const groupRef = useRef<THREE.Group>(null);
@@ -127,11 +127,11 @@ function Model({ url }: { url: string }) {
 	}, []);
 
 	const progress = Math.min(scrollY / window.innerHeight / 2, 1);
-	const scale = 1 - progress * 0.5;
+	const adjustedScale = scale * (1 - progress * 0.5);
 	const opacity = 1 - progress;
 
 	return (
-		<group ref={groupRef} scale={scale}>
+		<group ref={groupRef} scale={adjustedScale}>
 			<primitive object={scene} />
 			<meshStandardMaterial transparent opacity={opacity} />
 		</group>
@@ -140,6 +140,7 @@ function Model({ url }: { url: string }) {
 
 export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
 	const [hide, setHide] = useState(false);
+	const [scale, setScale] = useState(1);
 
 	useEffect(() => {
 		const onScroll = () => {
@@ -148,6 +149,18 @@ export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
 		};
 		window.addEventListener('scroll', onScroll);
 		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
+
+	useEffect(() => {
+		const onResize = () => {
+			const width = window.innerWidth;
+			if (width < 640) setScale(0.5);
+			else if (width < 1024) setScale(0.75);
+			else setScale(1);
+		};
+		onResize();
+		window.addEventListener('resize', onResize);
+		return () => window.removeEventListener('resize', onResize);
 	}, []);
 
 	if (hide) return null;
@@ -166,7 +179,7 @@ export default function GLBViewer({ url = '/images/Logo3D.glb' }) {
 
 				<Suspense fallback={null}>
 					<Center>
-						<Model url={url} />
+						<Model url={url} scale={scale} />
 					</Center>
 					<Environment preset="city" />
 					<ContactShadows opacity={0.4} scale={10} blur={2.5} far={4} />
