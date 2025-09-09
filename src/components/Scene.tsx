@@ -20,7 +20,11 @@ export function Scene({ url, scale, onLoaded }: SceneProps) {
 			className="w-full h-screen fixed top-0 left-0"
 			style={{ touchAction: 'pan-y' }}
 		>
-			<Canvas shadows camera={{ position: [0, 0, 8], fov: 80 }}>
+			<Canvas
+				shadows
+				camera={{ position: [0, 0, 8], fov: 80 }}
+				style={{ touchAction: 'pan-y' }}
+			>
 				<hemisphereLight intensity={0.25} groundColor={'#222'} />
 				<directionalLight
 					position={[5, 5, 5]}
