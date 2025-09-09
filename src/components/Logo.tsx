@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Scene } from './Scene';
+import { LoadingScreen } from './LoadingScreen';
 
 type LogoProps = {
 	url?: string;
@@ -8,6 +9,7 @@ type LogoProps = {
 export default function Logo({ url = '/images/Logo3D.glb' }: LogoProps) {
 	const [hide, setHide] = useState(false);
 	const [scale, setScale] = useState(1);
+	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		const onScroll = () => {
@@ -32,5 +34,13 @@ export default function Logo({ url = '/images/Logo3D.glb' }: LogoProps) {
 
 	if (hide) return null;
 
-	return <Scene url={url} scale={scale} />;
+	return (
+		<>
+			{/* Tela de loading */}
+			<LoadingScreen isLoaded={loaded} />
+
+			{/* Cena 3D */}
+			<Scene url={url} scale={scale} onLoaded={() => setLoaded(true)} />
+		</>
+	);
 }

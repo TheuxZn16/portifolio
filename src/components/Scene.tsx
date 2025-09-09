@@ -5,16 +5,16 @@ import {
 	ContactShadows,
 	Center,
 	OrbitControls,
-	Loader,
 } from '@react-three/drei';
 import { Model } from './Model';
 
 type SceneProps = {
 	url: string;
 	scale: number;
+	onLoaded: () => void;
 };
 
-export function Scene({ url, scale }: SceneProps) {
+export function Scene({ url, scale, onLoaded }: SceneProps) {
 	return (
 		<div className="w-full h-screen fixed top-0 left-0 pointer-events-none">
 			<Canvas shadows camera={{ position: [0, 0, 8], fov: 80 }}>
@@ -29,7 +29,7 @@ export function Scene({ url, scale }: SceneProps) {
 
 				<Suspense fallback={null}>
 					<Center>
-						<Model url={url} scale={scale} />
+						<Model url={url} scale={scale} onLoaded={onLoaded} />
 					</Center>
 					<Environment preset="city" />
 					<ContactShadows opacity={0.4} scale={10} blur={2.5} far={4} />
@@ -43,7 +43,6 @@ export function Scene({ url, scale }: SceneProps) {
 					dampingFactor={0.1}
 				/>
 			</Canvas>
-			<Loader />
 		</div>
 	);
 }

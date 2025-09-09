@@ -7,13 +7,27 @@ import { GradientMaterial } from '../hooks/GradientMaterial';
 type ModelProps = {
 	url: string;
 	scale: number;
+	onLoaded?: () => void;
 };
 
-export function Model({ url, scale }: ModelProps) {
+export function Model({ url, scale, onLoaded }: ModelProps) {
 	const { scene } = useGLTF(url);
 	const matRef = useRef<THREE.ShaderMaterial>(null);
 	const groupRef = useRef<THREE.Group>(null);
 	const mouse = useRef({ x: 0, y: 0 });
+
+	const [loaded, setLoaded] = useState(false);
+	const [fade, setFade] = useState(0);
+
+	useMemo(() => {
+		scene.traverse((child: any) => {
+			if (child.isMesh) {
+				child.material = matRef.current!;
+				child.geometry.computeVertexNormals();
+			}
+		});
+		onLoaded?.(); // avisa que o modelo terminou de carregar
+	}, [scene, onLoaded]);
 
 	const modelDimensions = useMemo(() => {
 		const box = new THREE.Box3().setFromObject(scene);
@@ -38,6 +52,7 @@ export function Model({ url, scale }: ModelProps) {
 				child.geometry.computeVertexNormals();
 			}
 		});
+		setLoaded(true);
 	}, [scene]);
 
 	useEffect(() => {
@@ -49,6 +64,7 @@ export function Model({ url, scale }: ModelProps) {
 		return () => window.removeEventListener('mousemove', handleMouseMove);
 	}, []);
 
+	//
 	useFrame((state) => {
 		if (matRef.current) {
 			matRef.current.uniforms.time.value = state.clock.getElapsedTime();
@@ -67,9 +83,12 @@ export function Model({ url, scale }: ModelProps) {
 				0.05,
 			);
 		}
+
+		if (loaded && fade < 1) {
+			setFade((prev) => Math.min(prev + state.clock.getDelta(), 1));
+		}
 	});
 
-	// Opacidade ao scroll
 	const [scrollY, setScrollY] = useState(0);
 	useEffect(() => {
 		const onScroll = () => setScrollY(window.scrollY);
@@ -79,7 +98,8 @@ export function Model({ url, scale }: ModelProps) {
 
 	const progress = Math.min(scrollY / window.innerHeight / 2, 1);
 	const adjustedScale = scale * (1 - progress * 0.5);
-	const opacity = 1 - progress;
+
+	const opacity = (1 - progress) * fade;
 
 	return (
 		<group ref={groupRef} scale={adjustedScale}>
