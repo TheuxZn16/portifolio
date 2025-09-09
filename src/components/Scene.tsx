@@ -17,7 +17,7 @@ type SceneProps = {
 export function Scene({ url, scale, onLoaded }: SceneProps) {
 	return (
 		<div
-			className="w-full h-screen fixed top-0 left-0"
+			className="w-full h-screen fixed top-0 left-0 pointer-events-none md:pointer-events-auto"
 			style={{ touchAction: 'pan-y' }}
 		>
 			<Canvas
