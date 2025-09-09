@@ -26,7 +26,7 @@ export function Model({ url, scale, onLoaded }: ModelProps) {
 				child.geometry.computeVertexNormals();
 			}
 		});
-		onLoaded?.(); // avisa que o modelo terminou de carregar
+		onLoaded?.();
 	}, [scene, onLoaded]);
 
 	const modelDimensions = useMemo(() => {

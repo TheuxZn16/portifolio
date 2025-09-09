@@ -16,7 +16,7 @@ type SceneProps = {
 
 export function Scene({ url, scale, onLoaded }: SceneProps) {
 	return (
-		<div className="w-full h-screen fixed top-0 left-0 pointer-events-none">
+		<div className="w-full h-screen fixed top-0 left-0 ">
 			<Canvas shadows camera={{ position: [0, 0, 8], fov: 80 }}>
 				<hemisphereLight intensity={0.25} groundColor={'#222'} />
 				<directionalLight
