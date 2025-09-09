@@ -36,10 +36,8 @@ export default function Logo({ url = '/images/Logo3D.glb' }: LogoProps) {
 
 	return (
 		<>
-			{/* Tela de loading */}
 			<LoadingScreen isLoaded={loaded} />
 
-			{/* Cena 3D */}
 			<Scene url={url} scale={scale} onLoaded={() => setLoaded(true)} />
 		</>
 	);
