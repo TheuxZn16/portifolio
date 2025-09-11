@@ -11,6 +11,7 @@ export default function LogoScroll({
 	const [activeClassSection, setActiveClassSection] = useState<string>('fixed');
 	const [activeClassDiv, setActiveClassDiv] = useState<string>('');
 	const [widthImage, setWidthImage] = useState<number>(75);
+	const [opacityImage, setOpacityImage] = useState<number>(1); // opacidade entre 0 e 1
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -28,6 +29,8 @@ export default function LogoScroll({
 		const maxScroll = window.innerHeight;
 		const minWidth = 40;
 		const maxWidth = 75;
+		const minOpacity = 0.1; // equivalente a 10%
+		const maxOpacity = 1; // equivalente a 100%
 
 		if (scroll < maxScroll) {
 			setActiveClassSection('fixed');
@@ -36,12 +39,15 @@ export default function LogoScroll({
 			const scrollRatio = scroll / maxScroll;
 
 			const newWidth = maxWidth - (maxWidth - minWidth) * scrollRatio;
+			const newOpacity = maxOpacity - (maxOpacity - minOpacity) * scrollRatio;
 
 			setWidthImage(newWidth);
+			setOpacityImage(newOpacity);
 		} else {
 			setActiveClassSection('');
 			setActiveClassDiv('hidden');
 			setWidthImage(minWidth);
+			setOpacityImage(minOpacity);
 		}
 	}, [scroll]);
 
@@ -53,7 +59,7 @@ export default function LogoScroll({
 				<img
 					src={url}
 					alt="Logo"
-					style={{ width: `${widthImage}%` }}
+					style={{ width: `${widthImage}%`, opacity: opacityImage }}
 					className="transition-all duration-100"
 				/>
 			</section>
