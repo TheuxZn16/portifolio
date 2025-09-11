@@ -1,15 +1,19 @@
 import Header from './components/Header';
-import Logo from './components/Logo';
+import LogoScroll from './components/LogoMain';
 
 function App() {
 	return (
 		<div className="bg-[#0a0a0a]">
 			<Header />
-			<Logo url="/images/Logo3D.glb" />
+			<div className="h-[100vh]"></div>
+			<LogoScroll url="/images/Logo2.svg" />
 
-			<div className="h-[300vh]"></div>
-
-			<div className="h-screen text-red-500 text-center">123</div>
+			<div className="h-screen"></div>
+			<div className="h-screen"></div>
+			<div className="h-screen"></div>
+			<div className="h-screen"></div>
+			<div className="h-screen"></div>
+			<div className="h-screen"></div>
 			<div className="h-screen"></div>
 		</div>
 	);
