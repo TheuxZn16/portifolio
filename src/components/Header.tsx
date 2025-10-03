@@ -3,216 +3,201 @@ import { FiCpu } from 'react-icons/fi';
 import { RiMailSendLine } from 'react-icons/ri';
 import { GoProject } from 'react-icons/go';
 import { HiMenu, HiX } from 'react-icons/hi';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 function Header() {
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [openMenu, setOpenMenu] = useState(false);
 	const [openHeader, setOpenHeader] = useState(false);
+	const [isManuallyOpened, setIsManuallyOpened] = useState(false);
+	const [, setHasInitialOpened] = useState(false);
+	const [initialDelayActive, setInitialDelayActive] = useState(true);
 	const [onTop, setOnTop] = useState(false);
 	const [showContent, setShowContent] = useState(false);
+
+	const closeHeader = useCallback(() => {
+		if (window.scrollY >= 5) {
+			setOpenHeader((prev) => {
+				if (prev) {
+					setIsManuallyOpened(false);
+					return false;
+				}
+				return prev;
+			});
+		}
+	}, []);
 
 	useEffect(() => {
 		const handleResize = () => setWindowWidth(window.innerWidth);
 		window.addEventListener('resize', handleResize);
 
-		const handleScroll = () => setOnTop(window.scrollY < 5);
+		const handleScroll = () => {
+			setOnTop(window.scrollY < 5);
+			closeHeader();
+		};
 		window.addEventListener('scroll', handleScroll);
 
 		handleResize();
-		handleScroll();
+
+		if (!initialDelayActive) {
+			handleScroll();
+		}
 
 		return () => {
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('scroll', handleScroll);
 		};
+	}, [closeHeader, initialDelayActive]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setInitialDelayActive(false);
+			setHasInitialOpened(true);
+
+			setOnTop(window.scrollY < 5);
+		}, 800);
+		return () => clearTimeout(timer);
 	}, []);
 
 	useEffect(() => {
+		if (initialDelayActive) return;
+
 		if (onTop) {
+			setIsManuallyOpened(false);
 			setOpenHeader(true);
 		} else {
-			setOpenHeader(false);
+			if (!isManuallyOpened) {
+				setOpenHeader(false);
+			}
 		}
-	}, [onTop]);
+	}, [onTop, isManuallyOpened, initialDelayActive]);
 
 	useEffect(() => {
 		if (openHeader) {
-			const timer = setTimeout(() => setShowContent(true), 700);
+			const timer = setTimeout(() => {
+				setShowContent(true);
+			}, 1000);
 			return () => clearTimeout(timer);
 		} else {
 			setShowContent(false);
 		}
 	}, [openHeader]);
 
+	const renderAsFull = onTop || openHeader;
+	const showFloatingEvents = !onTop;
+
 	return (
 		<>
-			{onTop ? (
-				<header
-					className="fixed bg-[#1a1a1a] flex items-center justify-between left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out w-4/5 top-12 h-24 py-6 lg:px-28 md:px-16 px-12 rounded-sm cursor-default"
-					style={{
-						clipPath:
-							'polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 57.5% 100%, 54% calc(100% - 10px), 46% calc(100% - 10px), 42.5% 100%, 0 100%, 0 30px)',
-						borderRadius: '0',
-					}}
-				>
-					<div
-						className={`transition-all duration-1000 ${showContent ? 'block' : 'hidden'}`}
-					>
-						<a href="$">
-							<img
-								src="/images/Logo1.png"
-								alt="Logo TheusDev"
-								className="w-32"
-							/>
-						</a>
-					</div>
-
-					{windowWidth < 760 ? (
-						<button
-							type="button"
-							className="cursor-pointer"
-							onClick={() => setOpenMenu(!openMenu)}
-						>
-							<HiMenu className="text-4xl text-cyan-primary" />
-						</button>
-					) : (
-						<nav
-							className={`transition-all duration-[1000ms] ${showContent ? 'flex items-center justify-center gap-3' : 'hidden'}`}
-						>
-							<a
-								href="#sobre"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<FaRegUser className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Sobre
-									</p>
-								</div>
-							</a>
-							<a
-								href="#tecnologias"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<FiCpu className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Tecnologias
-									</p>
-								</div>
-							</a>
-							<a
-								href="#projetos"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<GoProject className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Projetos
-									</p>
-								</div>
-							</a>
-							<a
-								href="#contato"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<RiMailSendLine className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Contato
-									</p>
-								</div>
-							</a>
-						</nav>
-					)}
-				</header>
-			) : (
-				<header
-					className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out ${
-						showContent
-							? 'w-4/5 top-12 h-24 py-6 lg:px-28 md:px-16 px-12 cursor-default'
-							: 'w-8 h-8 top-[4.5rem] rounded-full -translate-x-1/2 cursor-pointer'
-					} flex items-center justify-between`}
-					style={{
-						clipPath: showContent
+			<header
+				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center justify-between ${
+					initialDelayActive
+						? 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
+						: renderAsFull
+							? 'w-4/5 top-12 h-24 py-6 lg:px-28 md:px-16 px-12 rounded-sm cursor-default'
+							: 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
+				}`}
+				style={{
+					clipPath: initialDelayActive
+						? 'circle(50% at 50% 50%)'
+						: renderAsFull
 							? 'polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 57.5% 100%, 54% calc(100% - 10px), 46% calc(100% - 10px), 42.5% 100%, 0 100%, 0 30px)'
 							: 'circle(50% at 50% 50%)',
-						borderRadius: showContent ? '0' : '50%',
-					}}
+					borderRadius: initialDelayActive ? '50%' : renderAsFull ? '0' : '50%',
+				}}
+				onClick={
+					showFloatingEvents
+						? () => {
+								setOpenHeader((prev) => !prev);
+								setIsManuallyOpened((prev) => !prev);
+							}
+						: undefined
+				}
+				onMouseEnter={
+					showFloatingEvents
+						? () => {
+								if (!openHeader) {
+									setOpenHeader(true);
+								}
+							}
+						: undefined
+				}
+				onMouseLeave={
+					showFloatingEvents
+						? () => {
+								if (!isManuallyOpened) {
+									setOpenHeader(false);
+								}
+							}
+						: undefined
+				}
+			>
+				<div
+					className={`${showContent ? 'block animate-slideDown delay-[200ms]' : 'hidden'}`}
 				>
-					<div
-						className={`transition-all duration-1000 ${showContent ? 'block' : 'hidden'}`}
-					>
-						<a href="$">
-							<img
-								src="/images/Logo1.png"
-								alt="Logo TheusDev"
-								className="w-32"
-							/>
-						</a>
-					</div>
+					<a href="$">
+						<img src="/images/Logo1.png" alt="Logo TheusDev" className="w-32" />
+					</a>
+				</div>
 
-					{windowWidth < 760 ? (
-						<button
-							type="button"
-							className="cursor-pointer"
-							onClick={() => setOpenMenu(!openMenu)}
+				{windowWidth < 760 ? (
+					<button
+						type="button"
+						className="cursor-pointer"
+						onClick={() => setOpenMenu(!openMenu)}
+					>
+						<HiMenu className="text-4xl text-cyan-primary" />
+					</button>
+				) : (
+					<nav
+						className={`${showContent ? 'flex items-center justify-center gap-3' : 'hidden'}`}
+					>
+						<a
+							href="#sobre"
+							className={`${showContent ? 'animate-slideUp delay-[300ms]' : 'opacity-0'}`}
 						>
-							<HiMenu className="text-4xl text-cyan-primary" />
-						</button>
-					) : (
-						<nav
-							className={`transition-all duration-1000 ${showContent ? 'flex items-center justify-center gap-3' : 'hidden'}`}
+							<div className="flex flex-col justify-center items-center gap-1">
+								<FaRegUser className="text-3xl text-cyan-primary" />
+								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+									Sobre
+								</p>
+							</div>
+						</a>
+						<a
+							href="#tecnologias"
+							className={`${showContent ? 'animate-slideDown delay-[500ms]' : 'opacity-0'}`}
 						>
-							<a
-								href="#sobre"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<FaRegUser className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Sobre
-									</p>
-								</div>
-							</a>
-							<a
-								href="#tecnologias"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<FiCpu className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Tecnologias
-									</p>
-								</div>
-							</a>
-							<a
-								href="#projetos"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<GoProject className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Projetos
-									</p>
-								</div>
-							</a>
-							<a
-								href="#contato"
-								className="transition-all duration-500 ease-out opacity-100 translate-y-0"
-							>
-								<div className="flex flex-col justify-center items-center gap-1">
-									<RiMailSendLine className="text-3xl text-cyan-primary" />
-									<p className="font-orbiton font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
-										Contato
-									</p>
-								</div>
-							</a>
-						</nav>
-					)}
-				</header>
-			)}
+							<div className="flex flex-col justify-center items-center gap-1">
+								<FiCpu className="text-3xl text-cyan-primary" />
+								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+									Tecnologias
+								</p>
+							</div>
+						</a>
+						<a
+							href="#projetos"
+							className={`${showContent ? 'animate-slideUp delay-[700ms]' : 'opacity-0'}`}
+						>
+							<div className="flex flex-col justify-center items-center gap-1">
+								<GoProject className="text-3xl text-cyan-primary" />
+								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+									Projetos
+								</p>
+							</div>
+						</a>
+						<a
+							href="#contato"
+							className={`${showContent ? 'animate-slideDown delay-[900ms]' : 'opacity-0'}`}
+						>
+							<div className="flex flex-col justify-center items-center gap-1">
+								<RiMailSendLine className="text-3xl text-cyan-primary" />
+								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+									Contato
+								</p>
+							</div>
+						</a>
+					</nav>
+				)}
+			</header>
 
 			{openMenu && (
 				<div className="fixed inset-0 z-20 flex justify-center items-center">
@@ -237,7 +222,7 @@ function Header() {
 								onClick={() => setOpenMenu(false)}
 							>
 								<FaRegUser className="text-3xl" />
-								<p className="font-orbiton font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
 									Sobre
 								</p>
 							</a>
@@ -247,7 +232,7 @@ function Header() {
 								onClick={() => setOpenMenu(false)}
 							>
 								<FiCpu className="text-3xl" />
-								<p className="font-orbiton font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
 									Tecnologias
 								</p>
 							</a>
@@ -257,7 +242,7 @@ function Header() {
 								onClick={() => setOpenMenu(false)}
 							>
 								<GoProject className="text-3xl" />
-								<p className="font-orbiton font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
 									Projetos
 								</p>
 							</a>
@@ -267,7 +252,7 @@ function Header() {
 								onClick={() => setOpenMenu(false)}
 							>
 								<RiMailSendLine className="text-3xl" />
-								<p className="font-orbiton font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
+								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
 									Contato
 								</p>
 							</a>

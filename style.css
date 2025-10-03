@@ -7,5 +7,35 @@
 	--color-cyan-primary: #00c2fe;
 	--color-dark-bg: #1a1a1a;
 	--font-share: "Share Tech Mono", monospace;
-	--font-orbiton: "Orbitron", sans-serif;
+	--font-orbitron: "Orbitron", sans-serif;
+}
+
+@keyframes slideUp {
+	0% {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideDown {
+	0% {
+		opacity: 0;
+		transform: translateY(-40px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-slideUp {
+	animation: slideUp 0.8s ease forwards;
+}
+
+.animate-slideDown {
+	animation: slideDown 0.8s ease forwards;
 }
