@@ -53,7 +53,6 @@ function Header() {
 		const timer = setTimeout(() => {
 			setInitialDelayActive(false);
 			setHasInitialOpened(true);
-
 			setOnTop(window.scrollY < 5);
 		}, 800);
 		return () => clearTimeout(timer);
@@ -142,7 +141,7 @@ function Header() {
 				{windowWidth < 760 ? (
 					<button
 						type="button"
-						className="cursor-pointer"
+						className={`cursor-pointer ${showContent ? 'animate-slideUp delay-[100ms]' : 'opacity-0'}`}
 						onClick={() => setOpenMenu(!openMenu)}
 					>
 						<HiMenu className="text-4xl text-cyan-primary" />
