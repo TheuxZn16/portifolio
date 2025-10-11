@@ -15,27 +15,33 @@ export default function About() {
 		() => [
 			{
 				id: 'sobre-mim',
-				title: 'Sobre mim',
+				title: 'Sobre Mim',
 				content:
-					'Sou um desenvolvedor apaixonado por transformar ideias em experiências digitais imersivas e cheias de energia futurista.',
+					'Sou Matheus, tenho 18 anos e sou apaixonado por programação e tecnologia. Minha jornada começou há dois anos, quando participei da equipe de robótica da minha antiga escola. Lá, descobri o quanto eu amava estar por trás da lógica dos robôs — programar, testar e ver a criação ganhar vida. Desde então, venho estudando e me aperfeiçoando continuamente, transformando curiosidade em propósito.',
 			},
 			{
-				id: 'minha-missao',
-				title: 'Minha missão',
+				id: 'minha-trajetoria',
+				title: 'Minha Trajetória',
 				content:
-					'Busco unir design, animação e tecnologia para criar interfaces que causem impacto e emoção em quem interage com elas.',
+					'Após aquela experiência marcante, investi em cursos, projetos pessoais e estudos constantes. Hoje curso Engenharia de Software na Universidade de Brasília (UnB), onde estou no segundo semestre, focado em construir uma base sólida para criar soluções que unem desempenho e inovação.',
 			},
 			{
-				id: 'tecnologias',
-				title: 'Tecnologias',
+				id: 'habilidades-tecnologias',
+				title: 'Habilidades e Tecnologias',
 				content:
-					'Trabalho com React, TypeScript, GSAP e Three.js, criando experiências fluidas e dinâmicas com foco em performance e estética.',
+					'Ao longo dessa jornada, desenvolvi proficiência em TypeScript, React, Node.js, PostgreSQL, HTML, CSS, AWS e Docker. Atualmente, estou me aventurando pelo universo do Java, explorando novas possibilidades de backend e arquitetura de sistemas. Busco sempre unir tecnologia e criatividade para entregar experiências que causem impacto real.',
 			},
 			{
-				id: 'filosofia',
-				title: 'Filosofia',
+				id: 'valores-proposito',
+				title: 'Valores e Propósito',
 				content:
-					'Acredito que código é arte — cada projeto é uma forma de expressão, um universo digital em constante evolução.',
+					'Sou movido por comprometimento, atenção aos detalhes e a paixão por surpreender através do que crio. Cada linha de código é uma oportunidade de inspirar, facilitar e transformar realidades — e é por isso que coloco alma em cada projeto.',
+			},
+			{
+				id: 'missao',
+				title: 'Missão',
+				content:
+					'Vivemos em uma era em que a presença digital é vital. Como disse Bill Gates: “Se o seu negócio não estiver na internet, seu negócio irá ficar sem negócio.” Meu propósito é ajudar pessoas e empresas a construírem experiências digitais únicas, que não apenas existam na web, mas conectem, encantem e gerem resultados reais.',
 			},
 		],
 		[],
@@ -83,12 +89,12 @@ export default function About() {
 						if (titleAnimated && contentAnimated) {
 							gsap.to(titleAnimated, {
 								text: texts[i].title,
-								duration: 0.5,
+								duration: 0.3,
 								ease: 'none',
 							});
 							gsap.to(contentAnimated, {
 								text: texts[i].content,
-								duration: 2,
+								duration: 1.2,
 								ease: 'none',
 							});
 						}
@@ -117,32 +123,30 @@ export default function About() {
 			className="relative w-full min-h-screen overflow-hidden bg-gradient-to-b from-[#050013] via-[#090021] to-[#050013] text-white"
 		>
 			<div className="relative z-10 w-full h-full flex md:flex-row flex-col justify-center items-center gap-6 md:gap-14">
-				{/* FOTO */}
 				<div
 					ref={imgRef}
 					className="relative flex-shrink-0 w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden shadow-[0_0_40px_#7e3ff2] border-4 border-[#00ffff] bg-[#080016]"
 				>
 					<img
-						src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&w=500"
+						src="/images/FotoMatheus.jpeg"
 						alt="Foto do desenvolvedor"
 						className="object-cover w-full h-full"
 					/>
 					<div className="absolute inset-0 bg-gradient-to-tr from-[#7e3ff2]/40 to-transparent" />
 				</div>
 
-				{/* CARDS */}
 				<div ref={cardsContainerRef} className="relative w-3/5 h-96">
 					{texts.map((item) => (
 						<div
 							key={item.id}
 							className="about-card bg-gradient-to-br from-[#12002c] flex flex-col justify-center to-[#1a0040] rounded-2xl shadow-[0_0_40px_#7e3ff2] border border-[#00ffff]/30 p-8 md:p-10 "
 						>
-							<h2 className="card-title text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff] min-h-[3rem]">
+							<h2 className="card-title text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff] min-h-[4rem]">
 								<span className="sr-only">{item.title}</span>
 								<span
 									className="card-title-animated"
 									aria-hidden="true"
-									style={{ minHeight: '3rem' }}
+									style={{ minHeight: '4rem', lineHeight: 1.2 }}
 								/>
 							</h2>
 							<p className="card-content text-lg md:text-xl text-[#d1d0e5] leading-relaxed">
