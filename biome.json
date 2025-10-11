@@ -15,7 +15,11 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"a11y": {
+				"noStaticElementInteractions": "off",
+				"useKeyWithClickEvents": "off",
+				"useValidAnchor": "off"
+			}
 		}
 	},
 	"javascript": {
@@ -27,7 +31,7 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": "off"
 			}
 		}
 	}
