@@ -137,7 +137,7 @@ export default function About() {
 
 				<div
 					ref={cardsContainerRef}
-					className="relative w-full md:w-3/5 h-[600px] md:h-96"
+					className="relative w-11/12 md:w-3/5 h-3/5 md:h-96"
 				>
 					{texts.map((item) => (
 						<div
