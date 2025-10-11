@@ -135,11 +135,14 @@ export default function About() {
 					<div className="absolute inset-0 bg-gradient-to-tr from-[#7e3ff2]/40 to-transparent" />
 				</div>
 
-				<div ref={cardsContainerRef} className="relative w-3/5 h-96">
+				<div
+					ref={cardsContainerRef}
+					className="relative w-full md:w-3/5 h-[600px] md:h-96"
+				>
 					{texts.map((item) => (
 						<div
 							key={item.id}
-							className="about-card bg-gradient-to-br from-[#12002c] flex flex-col justify-center to-[#1a0040] rounded-2xl shadow-[0_0_40px_#7e3ff2] border border-[#00ffff]/30 p-8 md:p-10 "
+							className="about-card bg-gradient-to-br from-[#12002c] flex flex-col justify-center to-[#1a0040] rounded-2xl shadow-[0_0_40px_#7e3ff2] border border-[#00ffff]/30 p-6 md:p-10 overflow-hidden"
 						>
 							<h2 className="card-title text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff] min-h-[4rem]">
 								<span className="sr-only">{item.title}</span>
@@ -149,9 +152,12 @@ export default function About() {
 									style={{ minHeight: '4rem', lineHeight: 1.2 }}
 								/>
 							</h2>
-							<p className="card-content text-lg md:text-xl text-[#d1d0e5] leading-relaxed">
+							<p className="card-content text-lg md:text-xl text-[#d1d0e5] leading-relaxed overflow-hidden">
 								<span className="sr-only">{item.content}</span>
-								<span className="card-content-animated" aria-hidden="true" />
+								<span
+									className="card-content-animated block max-h-full"
+									aria-hidden="true"
+								/>
 							</p>
 						</div>
 					))}
