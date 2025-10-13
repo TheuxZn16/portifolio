@@ -88,7 +88,7 @@ function Header() {
 	return (
 		<>
 			<header
-				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center md:justify-between justify-center md:gap-0 gap-32  ${
+				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center md:justify-between justify-center md:gap-0 gap-28  ${
 					initialDelayActive
 						? 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
 						: renderAsFull

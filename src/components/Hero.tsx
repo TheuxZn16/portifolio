@@ -68,7 +68,7 @@ export default function Hero() {
 				transition={{ duration: 1, delay: 1.5 }}
 				className="mt-10 px-8 py-3 bg-purple-600 text-white font-semibold rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_35px_rgba(168,85,247,0.8)] hover:bg-purple-700 transition-all duration-300"
 			>
-				Começar
+				Vamos lá!
 			</motion.button>
 		</section>
 	);
