@@ -1,4 +1,4 @@
-import { useEffect, useRef, useId, useMemo } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
@@ -9,7 +9,6 @@ export default function About() {
 	const sectionRef = useRef<HTMLDivElement>(null);
 	const cardsContainerRef = useRef<HTMLDivElement>(null);
 	const imgRef = useRef<HTMLDivElement>(null);
-	const uniqueId = useId();
 
 	const texts = useMemo(
 		() => [
@@ -119,7 +118,7 @@ export default function About() {
 	return (
 		<section
 			ref={sectionRef}
-			id={uniqueId}
+			id="about-me"
 			className="relative w-full min-h-screen overflow-hidden bg-gradient-to-b from-[#050013] via-[#090021] to-[#050013] text-white"
 		>
 			<div className="relative z-10 w-full h-full flex lg:flex-row flex-col justify-center items-center gap-6 md:gap-14">

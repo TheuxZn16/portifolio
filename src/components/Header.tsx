@@ -82,6 +82,20 @@ function Header() {
 		}
 	}, [openHeader]);
 
+	const handleScrollToAbout = () => {
+		const section = document.getElementById('about-me');
+		if (section) {
+			section.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
+
+	const handleScrollToHero = () => {
+		const section = document.getElementById('hero');
+		if (section) {
+			section.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
+
 	const renderAsFull = onTop || openHeader;
 	const showFloatingEvents = !onTop;
 
@@ -133,11 +147,11 @@ function Header() {
 				<div
 					className={`${showContent ? 'block animate-slideDown delay-[200ms]' : 'hidden'}`}
 				>
-					<a href="$">
+					<a onClick={handleScrollToHero}>
 						<img
 							src="/images/Logo1.png"
 							alt="Logo TheusDev"
-							className="md:w-32 w-26"
+							className="md:w-32 w-26 cursor-pointer"
 						/>
 					</a>
 				</div>
@@ -155,7 +169,7 @@ function Header() {
 						className={`${showContent ? 'flex items-center justify-center gap-3' : 'hidden'}`}
 					>
 						<a
-							href="#sobre"
+							onClick={handleScrollToAbout}
 							className={`${showContent ? 'animate-slideUp delay-[300ms]' : 'opacity-0'}`}
 						>
 							<div className="flex flex-col justify-center items-center gap-1">
@@ -166,7 +180,6 @@ function Header() {
 							</div>
 						</a>
 						<a
-							href="#tecnologias"
 							className={`${showContent ? 'animate-slideDown delay-[500ms]' : 'opacity-0'}`}
 						>
 							<div className="flex flex-col justify-center items-center gap-1">
@@ -177,7 +190,6 @@ function Header() {
 							</div>
 						</a>
 						<a
-							href="#projetos"
 							className={`${showContent ? 'animate-slideUp delay-[700ms]' : 'opacity-0'}`}
 						>
 							<div className="flex flex-col justify-center items-center gap-1">
@@ -188,7 +200,6 @@ function Header() {
 							</div>
 						</a>
 						<a
-							href="#contato"
 							className={`${showContent ? 'animate-slideDown delay-[900ms]' : 'opacity-0'}`}
 						>
 							<div className="flex flex-col justify-center items-center gap-1">
@@ -220,9 +231,11 @@ function Header() {
 
 						<nav className="flex flex-1 flex-col gap-4 items-center justify-center">
 							<a
-								href="#sobre"
-								className="flex flex-col justify-center items-center gap-1 text-cyan-primary"
-								onClick={() => setOpenMenu(false)}
+								className="flex flex-col justify-center items-center gap-1 cursor-pointer text-cyan-primary"
+								onClick={() => {
+									handleScrollToAbout();
+									setOpenMenu(false);
+								}}
 							>
 								<FaRegUser className="text-3xl" />
 								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
@@ -230,8 +243,7 @@ function Header() {
 								</p>
 							</a>
 							<a
-								href="#tecnologias"
-								className="flex flex-col justify-center items-center gap-1 text-cyan-primary"
+								className="flex flex-col justify-center items-center gap-1 cursor-pointer text-cyan-primary"
 								onClick={() => setOpenMenu(false)}
 							>
 								<FiCpu className="text-3xl" />
@@ -240,8 +252,7 @@ function Header() {
 								</p>
 							</a>
 							<a
-								href="#projetos"
-								className="flex flex-col justify-center items-center gap-1 text-cyan-primary"
+								className="flex flex-col justify-center items-center gap-1 cursor-pointer text-cyan-primary"
 								onClick={() => setOpenMenu(false)}
 							>
 								<GoProject className="text-3xl" />
@@ -250,8 +261,7 @@ function Header() {
 								</p>
 							</a>
 							<a
-								href="#contato"
-								className="flex flex-col justify-center items-center gap-1 text-cyan-primary"
+								className="flex flex-col justify-center items-center gap-1 cursor-pointer text-cyan-primary"
 								onClick={() => setOpenMenu(false)}
 							>
 								<RiMailSendLine className="text-3xl" />
