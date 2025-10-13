@@ -88,7 +88,7 @@ function Header() {
 	return (
 		<>
 			<header
-				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center justify-between ${
+				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center md:justify-between justify-center md:gap-0 gap-32  ${
 					initialDelayActive
 						? 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
 						: renderAsFull
@@ -141,7 +141,7 @@ function Header() {
 				{windowWidth < 760 ? (
 					<button
 						type="button"
-						className={`cursor-pointer ${showContent ? 'animate-slideUp delay-[100ms]' : 'opacity-0'}`}
+						className={`cursor-pointer ${showContent ? 'animate-slideUp delay-[100ms]' : 'hidden'}`}
 						onClick={() => setOpenMenu(!openMenu)}
 					>
 						<HiMenu className="text-4xl text-cyan-primary" />
