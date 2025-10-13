@@ -17,7 +17,7 @@ export default function About() {
 				id: 'sobre-mim',
 				title: 'Sobre Mim',
 				content:
-					'Sou Matheus, tenho 18 anos e sou apaixonado por programação e tecnologia. Minha jornada começou há dois anos, quando participei da equipe de robótica da minha antiga escola. Lá, descobri o quanto eu amava estar por trás da lógica dos robôs — programar, testar e ver a criação ganhar vida. Desde então, venho estudando e me aperfeiçoando continuamente, transformando curiosidade em propósito.',
+					'Olá, me chamo Matheus e sou apaixonado por programação e tecnologia. Minha jornada começou há dois anos, quando participei da equipe de robótica da minha antiga escola. Lá, descobri o quanto eu amava estar por trás da lógica dos robôs — programar, testar e ver a criação ganhar vida. Desde então, venho estudando e me aperfeiçoando continuamente, transformando curiosidade em propósito.',
 			},
 			{
 				id: 'minha-trajetoria',
@@ -122,7 +122,7 @@ export default function About() {
 			id={uniqueId}
 			className="relative w-full min-h-screen overflow-hidden bg-gradient-to-b from-[#050013] via-[#090021] to-[#050013] text-white"
 		>
-			<div className="relative z-10 w-full h-full flex md:flex-row flex-col justify-center items-center gap-6 md:gap-14">
+			<div className="relative z-10 w-full h-full flex lg:flex-row flex-col justify-center items-center gap-6 md:gap-14">
 				<div
 					ref={imgRef}
 					className="relative flex-shrink-0 w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden shadow-[0_0_40px_#7e3ff2] border-4 border-[#00ffff] bg-[#080016]"
@@ -137,14 +137,14 @@ export default function About() {
 
 				<div
 					ref={cardsContainerRef}
-					className="relative w-11/12 md:w-3/5 h-3/5 md:h-96"
+					className="relative w-11/12 md:w-3/5 h-3/5 md:h-1/2"
 				>
 					{texts.map((item) => (
 						<div
 							key={item.id}
 							className="about-card bg-gradient-to-br from-[#12002c] flex flex-col justify-center to-[#1a0040] rounded-2xl shadow-[0_0_40px_#7e3ff2] border border-[#00ffff]/30 p-6 md:p-10 overflow-hidden"
 						>
-							<h2 className="card-title text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff] min-h-[4rem]">
+							<h2 className="card-title text-2xl md:text-5xl font-bold mb-4 md:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff]">
 								<span className="sr-only">{item.title}</span>
 								<span
 									className="card-title-animated"
@@ -152,7 +152,7 @@ export default function About() {
 									style={{ minHeight: '4rem', lineHeight: 1.2 }}
 								/>
 							</h2>
-							<p className="card-content text-lg md:text-xl text-[#d1d0e5] leading-relaxed overflow-hidden">
+							<p className="card-content text-sm md:text-xl text-[#d1d0e5] leading-relaxed overflow-hidden">
 								<span className="sr-only">{item.content}</span>
 								<span
 									className="card-content-animated block max-h-full"

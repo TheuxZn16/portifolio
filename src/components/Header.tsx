@@ -88,11 +88,11 @@ function Header() {
 	return (
 		<>
 			<header
-				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center md:justify-between justify-center md:gap-0 gap-28  ${
+				className={`z-10 bg-[#1a1a1a] fixed left-1/2 transform -translate-x-1/2 transition-all duration-1000 ease-out flex items-center justify-around md:justify-between ${
 					initialDelayActive
 						? 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
 						: renderAsFull
-							? 'w-4/5 top-12 h-24 py-6 lg:px-28 md:px-16 px-12 rounded-sm cursor-default'
+							? 'w-4/5 top-12 h-24 py-6 lg:px-28 md:px-16 px-0 rounded-sm cursor-default'
 							: 'w-8 h-8 top-[4.5rem] rounded-full cursor-pointer header-visible'
 				}`}
 				style={{
@@ -134,7 +134,11 @@ function Header() {
 					className={`${showContent ? 'block animate-slideDown delay-[200ms]' : 'hidden'}`}
 				>
 					<a href="$">
-						<img src="/images/Logo1.png" alt="Logo TheusDev" className="w-32" />
+						<img
+							src="/images/Logo1.png"
+							alt="Logo TheusDev"
+							className="md:w-32 w-26"
+						/>
 					</a>
 				</div>
 
