@@ -52,11 +52,11 @@ export default function About() {
 				scrollTrigger: {
 					trigger: sectionRef.current,
 					start: 'top top',
-					end: `+=${window.innerHeight * texts.length}`,
+					end: `+=${window.innerHeight * (texts.length - 0.5)}`,
 					pin: true,
 					scrub: true,
-					markers: false,
 					anticipatePin: 1,
+					markers: false,
 				},
 			});
 
@@ -119,7 +119,7 @@ export default function About() {
 		<section
 			ref={sectionRef}
 			id="about-me"
-			className="relative w-full min-h-screen overflow-hidden bg-gradient-to-b from-[#050013] via-[#090021] to-[#050013] text-white"
+			className="relative w-full h-screen overflow-visible bg-gradient-to-b from-[#050013] via-[#090021] to-[#050013] text-white"
 		>
 			<div className="relative z-10 w-full h-full flex lg:flex-row flex-col justify-center items-center gap-6 md:gap-14">
 				<div
