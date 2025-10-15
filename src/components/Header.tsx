@@ -132,7 +132,6 @@ function Header() {
 						: undefined
 				}
 			>
-				{/* LOGO */}
 				<div
 					className={`${showContent ? 'block animate-slideDown delay-[200ms]' : 'hidden'}`}
 				>
@@ -145,7 +144,6 @@ function Header() {
 					</a>
 				</div>
 
-				{/* MENU DESKTOP */}
 				{windowWidth < 760 ? (
 					<button
 						type="button"
@@ -169,7 +167,10 @@ function Header() {
 								</p>
 							</div>
 						</a>
-						<a className="animate-slideDown delay-[500ms] cursor-pointer">
+						<a
+							onClick={() => handleScrollTo('technologies')}
+							className="animate-slideDown delay-[500ms] cursor-pointer"
+						>
 							<div className="flex flex-col justify-center items-center gap-1">
 								<FiCpu className="text-3xl text-cyan-primary" />
 								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
@@ -197,7 +198,6 @@ function Header() {
 				)}
 			</header>
 
-			{/* MENU MOBILE CENTRALIZADO */}
 			{openMenu && (
 				<div className="fixed inset-0 z-50 flex justify-center items-center">
 					<div
@@ -229,7 +229,10 @@ function Header() {
 							</a>
 							<a
 								className="flex flex-col cursor-pointer justify-center items-center gap-1 text-cyan-primary"
-								onClick={() => setOpenMenu(false)}
+								onClick={() => {
+									handleScrollTo('technologies');
+									setOpenMenu(false);
+								}}
 							>
 								<FiCpu className="text-3xl" />
 								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">

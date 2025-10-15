@@ -5,6 +5,8 @@ import ScrollSmoother from 'gsap/ScrollSmoother';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import Technologies from './components/Technologies';
+import TechIntroduction from './components/TechIntroduction';
 
 export const SmootherContext = createContext<any>(null);
 
@@ -40,8 +42,8 @@ export default function App() {
 				<div id="smooth-content" className="w-full">
 					<Hero />
 					<About />
-					<div className="h-screen bg-[#12002c]" />
-					<div className="h-screen bg-[#0a0014]" />
+					<TechIntroduction />
+					<Technologies />
 				</div>
 			</div>
 		</SmootherContext.Provider>
