@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Technologies from './components/Technologies';
 import TechIntroduction from './components/TechIntroduction';
+import ProjectsStream from './components/ProjectsStream';
 
 export const SmootherContext = createContext<any>(null);
 
@@ -44,6 +45,7 @@ export default function App() {
 					<About />
 					<TechIntroduction />
 					<Technologies />
+					<ProjectsStream />
 				</div>
 			</div>
 		</SmootherContext.Provider>
