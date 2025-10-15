@@ -91,7 +91,6 @@ export default function Technologies() {
 	useEffect(() => {
 		if (!sectionRef.current) return;
 
-		// Garante que sempre comece no primeiro card
 		setActiveIndex(0);
 
 		const ctx = gsap.context(() => {
@@ -102,7 +101,6 @@ export default function Technologies() {
 				scrub: true,
 				pin: true,
 				onUpdate: (self) => {
-					// Evita setar valores fora do intervalo
 					const index = Math.max(
 						0,
 						Math.min(
@@ -129,12 +127,10 @@ export default function Technologies() {
 			ref={sectionRef}
 			className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0014] to-[#1a0026]"
 		>
-			{/* Glow de fundo */}
 			<div className="absolute inset-0 -z-10">
 				<div className="absolute w-[700px] h-[700px] bg-purple-600/20 blur-[150px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-pulse" />
 			</div>
 
-			{/* Card animado */}
 			<motion.div
 				key={techs[activeIndex].id}
 				layout
@@ -171,7 +167,6 @@ export default function Technologies() {
 				</a>
 			</motion.div>
 
-			{/* Indicadores */}
 			<div className="absolute bottom-24 flex gap-3">
 				{techs.map((_, i) => (
 					<div
