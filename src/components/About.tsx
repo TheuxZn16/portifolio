@@ -143,7 +143,7 @@ export default function About() {
 							key={item.id}
 							className="about-card bg-gradient-to-br from-[#12002c] flex flex-col justify-center to-[#1a0040] rounded-2xl shadow-[0_0_40px_#7e3ff2] border border-[#00ffff]/30 p-6 md:p-10 overflow-hidden"
 						>
-							<h2 className="card-title text-2xl md:text-5xl font-bold mb-4 md:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff]">
+							<h2 className="card-title text-2xl md:text-5xl font-bold mb-4 md:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_15px_#00ffff] leading-loose">
 								<span className="sr-only">{item.title}</span>
 								<span
 									className="card-title-animated"

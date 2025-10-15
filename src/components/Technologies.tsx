@@ -91,25 +91,33 @@ export default function Technologies() {
 	useEffect(() => {
 		if (!sectionRef.current) return;
 
-		sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		// Garante que sempre comece no primeiro card
+		setActiveIndex(0);
 
 		const ctx = gsap.context(() => {
-			setActiveIndex(0);
-
-			const tl = gsap.timeline({
-				scrollTrigger: {
-					trigger: sectionRef.current,
-					start: 'top top',
-					end: `+=${techs.length * 100}%`,
-					scrub: true,
-					pin: true,
-					onUpdate: (self) => {
-						const progress = self.progress * (techs.length - 1);
-						setActiveIndex(Math.round(progress));
-					},
+			const trigger = ScrollTrigger.create({
+				trigger: sectionRef.current,
+				start: 'top top',
+				end: `+=${techs.length * 100}%`,
+				scrub: true,
+				pin: true,
+				onUpdate: (self) => {
+					// Evita setar valores fora do intervalo
+					const index = Math.max(
+						0,
+						Math.min(
+							techs.length - 1,
+							Math.round(self.progress * (techs.length - 1)),
+						),
+					);
+					setActiveIndex(index);
 				},
+				onEnter: () => setActiveIndex(0),
+				onEnterBack: () => setActiveIndex(0),
+				onLeaveBack: () => setActiveIndex(0),
 			});
-			return () => tl.kill();
+
+			return () => trigger.kill();
 		}, sectionRef);
 
 		return () => ctx.revert();
@@ -121,10 +129,12 @@ export default function Technologies() {
 			ref={sectionRef}
 			className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0014] to-[#1a0026]"
 		>
+			{/* Glow de fundo */}
 			<div className="absolute inset-0 -z-10">
 				<div className="absolute w-[700px] h-[700px] bg-purple-600/20 blur-[150px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-pulse" />
 			</div>
 
+			{/* Card animado */}
 			<motion.div
 				key={techs[activeIndex].id}
 				layout
@@ -161,6 +171,7 @@ export default function Technologies() {
 				</a>
 			</motion.div>
 
+			{/* Indicadores */}
 			<div className="absolute bottom-10 flex gap-3">
 				{techs.map((_, i) => (
 					<div
