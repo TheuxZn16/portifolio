@@ -172,7 +172,7 @@ export default function Technologies() {
 			</motion.div>
 
 			{/* Indicadores */}
-			<div className="absolute bottom-10 flex gap-3">
+			<div className="absolute bottom-16 flex gap-3">
 				{techs.map((_, i) => (
 					<div
 						key={i}
