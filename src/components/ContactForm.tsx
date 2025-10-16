@@ -43,7 +43,7 @@ export default function ContactForm() {
 
 			<h2
 				ref={titleRef}
-				className="text-4xl md:text-6xl font-orbitron font-bold text-purple-400 mb-8 text-center tracking-widest"
+				className="text-2xl md:text-6xl font-orbitron font-bold text-purple-400 mb-8 text-center tracking-widest"
 			>
 				<TypeAnimation
 					sequence={[' VAMOS CONSTRUIR ALGO EXTRAORDINÁRIO ', 2000]}
