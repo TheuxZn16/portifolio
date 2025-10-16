@@ -8,6 +8,7 @@ import About from './components/About';
 import Technologies from './components/Technologies';
 import TechIntroduction from './components/TechIntroduction';
 import ProjectsStream from './components/ProjectsStream';
+import ContactForm from './components/ContactForm';
 
 export const SmootherContext = createContext<any>(null);
 
@@ -46,6 +47,7 @@ export default function App() {
 					<TechIntroduction />
 					<Technologies />
 					<ProjectsStream />
+					<ContactForm />
 				</div>
 			</div>
 		</SmootherContext.Provider>
