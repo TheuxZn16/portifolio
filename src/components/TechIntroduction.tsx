@@ -78,7 +78,7 @@ function TechIntroduction() {
 			className="flex justify-center items-center h-[130vh] overflow-visible"
 		>
 			<div className="bg-[#5c299b] absolute -z-10 h-80 w-[90%] md:w-[70%] blur-[150px] opacity-90 animate-pulse"></div>
-			<div className="drop-shadow-[0_0_30px_#a067ef]">
+			<div>
 				<h1
 					ref={h1Ref}
 					className="md:text-8xl text-5xl text-center mb-10 md:mb-16 font-orbitron text-transparent bg-clip-text bg-gradient-to-r from-[#7e3ff2] to-[#00ffff] drop-shadow-[0_0_30px_#a067ef] leading-loose"

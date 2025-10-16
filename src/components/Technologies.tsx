@@ -21,36 +21,12 @@ export default function Technologies() {
 				link: 'https://www.typescriptlang.org/',
 			},
 			{
-				id: 'java',
-				name: 'Java',
-				description:
-					'Linguagem robusta e versátil que utilizo para desenvolver sistemas orientados a objetos e explorar o universo backend.',
-				icon: '/icons/java.svg',
-				link: 'https://www.java.com/',
-			},
-			{
 				id: 'react',
 				name: 'React',
 				description:
 					'Biblioteca JavaScript focada em construir interfaces modernas, reativas e componentizadas com performance e escalabilidade.',
 				icon: '/icons/react.svg',
 				link: 'https://reactjs.org/',
-			},
-			{
-				id: 'postgres',
-				name: 'PostgreSQL',
-				description:
-					'Sistema de banco de dados relacional poderoso e confiável, ideal para armazenar e gerenciar dados com integridade e segurança.',
-				icon: '/icons/postgreesql.svg',
-				link: 'https://www.postgresql.org/',
-			},
-			{
-				id: 'nodejs',
-				name: 'Node.js',
-				description:
-					'Ambiente de execução JavaScript no servidor que utilizo para criar APIs rápidas, escaláveis e integradas ao ecossistema web moderno.',
-				icon: '/icons/nodejs.svg',
-				link: 'https://nodejs.org/',
 			},
 			{
 				id: 'html',
@@ -75,14 +51,6 @@ export default function Technologies() {
 					'Plataforma de computação em nuvem que utilizo para hospedar, escalar e automatizar aplicações com segurança e eficiência.',
 				icon: '/icons/aws.svg',
 				link: 'https://aws.amazon.com/',
-			},
-			{
-				id: 'docker',
-				name: 'Docker',
-				description:
-					'Ferramenta de containerização que garante que meus projetos rodem de forma consistente em qualquer ambiente de desenvolvimento ou produção.',
-				icon: '/icons/docker.svg',
-				link: 'https://www.docker.com/',
 			},
 		],
 		[],

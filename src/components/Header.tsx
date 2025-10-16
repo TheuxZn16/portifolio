@@ -189,7 +189,10 @@ function Header() {
 								</p>
 							</div>
 						</a>
-						<a className="animate-slideDown delay-[900ms] cursor-pointer">
+						<a
+							onClick={() => handleScrollTo('contact')}
+							className="animate-slideDown delay-[900ms] cursor-pointer"
+						>
 							<div className="flex flex-col justify-center items-center gap-1">
 								<RiMailSendLine className="text-3xl text-cyan-primary" />
 								<p className="font-orbitron font-bold text-sm bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
@@ -256,7 +259,10 @@ function Header() {
 							</a>
 							<a
 								className="flex flex-col cursor-pointer justify-center items-center gap-1 text-cyan-primary"
-								onClick={() => setOpenMenu(false)}
+								onClick={() => {
+									handleScrollTo('contact');
+									setOpenMenu(false);
+								}}
 							>
 								<RiMailSendLine className="text-3xl" />
 								<p className="font-orbitron font-bold text-lg bg-gradient-to-br from-purple-primary to-cyan-primary text-transparent bg-clip-text">
