@@ -21,6 +21,24 @@
 	}
 }
 
+@keyframes electricLine {
+	0% {
+		transform: translateX(-100%);
+		opacity: 0.4;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(100%);
+		opacity: 0.4;
+	}
+}
+
+.animate-electricLine {
+	animation: electricLine 2s linear infinite;
+}
+
 @keyframes slideDown {
 	0% {
 		opacity: 0;

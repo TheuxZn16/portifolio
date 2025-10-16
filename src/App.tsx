@@ -9,6 +9,7 @@ import Technologies from './components/Technologies';
 import TechIntroduction from './components/TechIntroduction';
 import ProjectsStream from './components/ProjectsStream';
 import ContactForm from './components/ContactForm';
+import Footer from './components/Footer';
 
 export const SmootherContext = createContext<any>(null);
 
@@ -23,7 +24,7 @@ export default function App() {
 				wrapper: '#smooth-wrapper',
 				content: '#smooth-content',
 				smooth: 1.2,
-				smoothTouch: 0.1,
+				smoothTouch: 0.2,
 				normalizeScroll: true,
 				effects: true,
 			});
@@ -48,6 +49,7 @@ export default function App() {
 					<Technologies />
 					<ProjectsStream />
 					<ContactForm />
+					<Footer />
 				</div>
 			</div>
 		</SmootherContext.Provider>
