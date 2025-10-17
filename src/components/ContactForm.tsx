@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ContactForm() {
 	const sectionRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
+	const [nameField, setNameField] = useState<string>('');
+	const [emailField, setEmailField] = useState<string>('');
+	const [topicField, setTopicField] = useState<string>('');
+	const [descriptionField, setDescriptionField] = useState<string>('');
 
 	useEffect(() => {
 		if (!sectionRef.current) return;
@@ -29,6 +33,33 @@ export default function ContactForm() {
 
 		return () => ctx.revert();
 	}, []);
+
+	const handleSubmit = () => {
+		if (!nameField || !emailField || !topicField || !descriptionField) {
+			alert('⚠️ Por favor, preencha todos os campos antes de enviar.');
+			return;
+		}
+
+		const message = `Olá! Meu nome é *${nameField}*.
+ Email: ${emailField}
+
+ Quero falar sobre: *${topicField}*
+
+ Descrição do projeto:
+${descriptionField}
+
+ Vamos criar algo incrível juntos!`;
+
+		const encodedMessage = encodeURIComponent(message);
+		const whatsappURL = `https://wa.me/5534997700777?text=${encodedMessage}`;
+
+		window.open(whatsappURL, '_blank');
+
+		setNameField('');
+		setEmailField('');
+		setTopicField('');
+		setDescriptionField('');
+	};
 
 	return (
 		<section
@@ -71,6 +102,8 @@ export default function ContactForm() {
 			>
 				<FormField label="Seu Nome">
 					<input
+						onChange={(e) => setNameField(e.target.value)}
+						value={nameField}
 						type="text"
 						name="name"
 						required
@@ -81,6 +114,8 @@ export default function ContactForm() {
 
 				<FormField label="E-mail">
 					<input
+						onChange={(e) => setEmailField(e.target.value)}
+						value={emailField}
 						type="email"
 						name="email"
 						required
@@ -91,6 +126,8 @@ export default function ContactForm() {
 
 				<FormField label="Assunto do Projeto">
 					<input
+						onChange={(e) => setTopicField(e.target.value)}
+						value={topicField}
 						type="text"
 						name="subject"
 						placeholder="Ex: Criação de site futurista, app interativo..."
@@ -100,6 +137,8 @@ export default function ContactForm() {
 
 				<FormField label="Mensagem">
 					<textarea
+						onChange={(e) => setDescriptionField(e.target.value)}
+						value={descriptionField}
 						name="message"
 						rows={5}
 						required
@@ -109,6 +148,7 @@ export default function ContactForm() {
 				</FormField>
 
 				<motion.button
+					onClick={handleSubmit}
 					whileHover={{
 						scale: 1.05,
 						boxShadow: '0 0 25px rgba(168,85,247,0.6)',
