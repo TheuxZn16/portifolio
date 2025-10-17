@@ -45,12 +45,12 @@ export default function Footer() {
 
 			<div className="flex gap-10 sm:gap-16 justify-center items-center">
 				<FooterLink
-					href="https://github.com/exemplo"
+					href="https://github.com/TheuxZn16"
 					icon={<FaGithub className="text-2xl sm:text-3xl" />}
 					label="GitHub"
 				/>
 				<FooterLink
-					href="https://linkedin.com/in/exemplo"
+					href="https://www.linkedin.com/in/matheus-estevam-6b3093350"
 					icon={<FaLinkedin className="text-2xl sm:text-3xl" />}
 					label="LinkedIn"
 				/>
