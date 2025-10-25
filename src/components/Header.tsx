@@ -15,6 +15,7 @@ function Header() {
 	const [initialDelayActive, setInitialDelayActive] = useState(true);
 	const [onTop, setOnTop] = useState(false);
 	const [showContent, setShowContent] = useState(false);
+	const [justOpenedMenu, setJustOpenedMenu] = useState(false);
 	const smootherRef = useContext(SmootherContext);
 
 	const handleScrollTo = (id: string) => {
@@ -38,6 +39,12 @@ function Header() {
 		}
 	}, []);
 
+	const closeMenu = useCallback(() => {
+		if (window.scrollY >= 5 && openMenu && !justOpenedMenu) {
+			setOpenMenu(false);
+		}
+	}, [openMenu, justOpenedMenu]);
+
 	useEffect(() => {
 		const handleResize = () => setWindowWidth(window.innerWidth);
 		window.addEventListener('resize', handleResize);
@@ -45,6 +52,7 @@ function Header() {
 		const handleScroll = () => {
 			setOnTop(window.scrollY < 5);
 			closeHeader();
+			closeMenu();
 		};
 		window.addEventListener('scroll', handleScroll);
 
@@ -58,7 +66,7 @@ function Header() {
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, [closeHeader, initialDelayActive]);
+	}, [closeHeader, closeMenu, initialDelayActive]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -91,6 +99,12 @@ function Header() {
 	const renderAsFull = onTop || openHeader;
 	const showFloatingEvents = !onTop;
 
+	const handleMenuToggle = () => {
+		setOpenMenu(!openMenu);
+		setJustOpenedMenu(true);
+		setTimeout(() => setJustOpenedMenu(false), 100);
+	};
+
 	return (
 		<>
 			<header
@@ -109,14 +123,6 @@ function Header() {
 							: 'circle(50% at 50% 50%)',
 					borderRadius: initialDelayActive ? '50%' : renderAsFull ? '0' : '50%',
 				}}
-				onClick={
-					showFloatingEvents
-						? () => {
-								setOpenHeader((prev) => !prev);
-								setIsManuallyOpened((prev) => !prev);
-							}
-						: undefined
-				}
 				onMouseEnter={
 					showFloatingEvents
 						? () => {
@@ -148,7 +154,7 @@ function Header() {
 					<button
 						type="button"
 						className={`cursor-pointer ${showContent ? 'animate-slideUp delay-[100ms]' : 'hidden'}`}
-						onClick={() => setOpenMenu(!openMenu)}
+						onClick={handleMenuToggle}
 					>
 						<HiMenu className="text-4xl text-cyan-primary" />
 					</button>
