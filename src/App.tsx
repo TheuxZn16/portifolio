@@ -10,6 +10,7 @@ import TechIntroduction from './components/TechIntroduction';
 import ProjectsStream from './components/ProjectsStream';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
+import { ToastContainer } from 'react-toastify';
 
 export const SmootherContext = createContext<any>(null);
 
@@ -39,19 +40,35 @@ export default function App() {
 	}, []);
 
 	return (
-		<SmootherContext.Provider value={smootherRef}>
-			<div id="smooth-wrapper" className="relative w-full bg-[#0a0a0a]">
-				<Header />
-				<div id="smooth-content" className="w-full">
-					<Hero />
-					<About />
-					<TechIntroduction />
-					<Technologies />
-					<ProjectsStream />
-					<ContactForm />
-					<Footer />
+		<div>
+			<ToastContainer
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="dark"
+				style={{
+					zIndex: 999,
+				}}
+			/>
+			<SmootherContext.Provider value={smootherRef}>
+				<div id="smooth-wrapper" className="relative w-full bg-[#0a0a0a]">
+					<Header />
+					<div id="smooth-content" className="w-full">
+						<Hero />
+						<About />
+						<TechIntroduction />
+						<Technologies />
+						<ProjectsStream />
+						<ContactForm />
+						<Footer />
+					</div>
 				</div>
-			</div>
-		</SmootherContext.Provider>
+			</SmootherContext.Provider>
+		</div>
 	);
 }
