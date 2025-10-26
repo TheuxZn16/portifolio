@@ -137,6 +137,9 @@ function Header() {
 							}
 						: undefined
 				}
+				onClick={
+					windowWidth < 760 ? () => setOpenHeader(!openHeader) : undefined
+				}
 			>
 				<div
 					className={`${showContent ? 'block animate-slideDown delay-[200ms]' : 'hidden'}`}
